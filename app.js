@@ -13,7 +13,7 @@ connectToDb((err)=>{
         app.listen(3000, ()=> {
             console.log("app listen in port 3000");
         });
-        db = getDb;
+        db = getDb();
     }
 })
 
@@ -21,18 +21,16 @@ connectToDb((err)=>{
 //routes
 
 app.get('/books',(req,res) => {
-    
-db.collection('books')
-let book = []
+    let books = []
+    db.collection('books')
 .find()
 .sort({author: 1 })
-.forEach(book => book.push(book) )
+.forEach(book => books.push(book) )
 .then(()=>{
-    res.status(200).json(book)
+    res.status(200).json(books)
 })
 .catch(()=>{
     res.status(500).json({error : "could not fetch"})
 })
-    res.json({mssg: "welocme to the api"})
 
 })
