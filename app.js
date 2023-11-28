@@ -22,6 +22,17 @@ connectToDb((err)=>{
 
 app.get('/books',(req,res) => {
     
+db.collection('books')
+let book = []
+.find()
+.sort({author: 1 })
+.forEach(book => book.push(book) )
+.then(()=>{
+    res.status(200).json(book)
+})
+.catch(()=>{
+    res.status(500).json({error : "could not fetch"})
+})
     res.json({mssg: "welocme to the api"})
 
 })
