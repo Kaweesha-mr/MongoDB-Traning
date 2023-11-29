@@ -6,6 +6,9 @@ const { ObjectId } = require('mongodb');
 
 const app = express();
 
+//when jason data is passed you can access them in req.body object from using this
+app.use(express.json());
+
 //db conenction
 let db;
 connectToDb((err)=>{
@@ -57,3 +60,19 @@ app.get('/books/:id', (req,res) =>{
 
 
 } )
+
+
+app.post('/books', (req,res) => {
+    //this will store the data comming from json
+    const book = req.body;
+    //pass data to the database using post request
+    db.collection('books')
+    .insertOne(book)
+    .then(result => {
+        res.status(200).json({message: 'book inserted'})
+    })
+    .catch(err => {
+        res.status(500).json({error: 'could not insert book'})
+    })
+
+})
