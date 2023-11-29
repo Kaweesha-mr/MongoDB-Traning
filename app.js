@@ -1,5 +1,6 @@
 const express = require('express');
 const {connectToDb,getDb} = require('./db');
+const { ObjectId } = require('mongodb');
 
 //init app and middleware
 
@@ -34,3 +35,17 @@ app.get('/books',(req,res) => {
 })
 
 })
+
+app.get('/books/:id', (req,res) =>{
+    //get the parameter from the get method url
+    //req.params.id
+
+    db.collection('books')
+    .findOne({_id: ObjectId(req.params.id)})
+    .then(doc  => {
+        res.status(200).json(doc)
+    } )
+    .catch(err => {
+        res.status(500).json({error: "could not fetch"})
+    })
+} )
